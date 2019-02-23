@@ -5,11 +5,9 @@ class CardArray
   class << self
     def deck_generate
       deck = CardArray.new
-      p deck
       Card::SUITS.each_key do |suit_name|
-        p suit_name
         (2..10).each {|i| deck.add(Card.new(i, suit_name, i))}
-        p deck
+
         (Card::JACK..Card::KING).each { |i| deck.add(Card.new(i, suit_name, 10)) }
 
         deck.add(Card.new(Card::ACE, suit_name, 11))
@@ -29,10 +27,23 @@ class CardArray
   end
 
   def calculate_points
-    # TODO
+    result = []
+    sum = 0
+    aces = 0
+    card_array.each do |card|
+      sum += card.points
+      aces += 1 if card.name == Card::ACE
+    end
+    loop do
+      result << sum
+      break if aces.zero?
+      sum -= 10
+      aces -= 1
+    end
+    result
   end
 
   def random_card
-    # TODO
+    card_array.delete_at(rand(card_array.size))
   end
 end
