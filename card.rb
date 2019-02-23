@@ -1,21 +1,27 @@
 class Card
-  SUITS = { hearts: '♥',
+  SUITS = { hearts:   '♥',
             diamonds: '♦',
-            clubs: '♣',
-            spades: '♠' }.freeze
+            clubs:    '♣',
+            spades:   '♠' }.freeze
 
-  JACK, QUEEN, KING, ACE = (11..14)
+  JACK, QUEEN, KING, ACE = (11..14).to_a
 
-  attr_reader name, face, suit, points
+  FACES = { JACK  => 'J',
+            QUEEN => 'Q',
+            KING  => 'K',
+            ACE   => 'A'  }
 
-  def initialize(name, face, suit, points)
+  (2..10).each { |i| FACES[i] = i.to_s.freeze }
+
+  attr_reader :name, :suit, :points
+
+  def initialize(name, suit, points)
     @name = name.to_i
-    @face = face.to_s.freeze
     @suit = suit.to_sym
     @points = points.to_i
   end
 
   def to_s
-    "#{@face}#{SUITS[@suit]}"
+    "#{FACES[name]}#{SUITS[@suit]}"
   end
 end
