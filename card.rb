@@ -22,6 +22,6 @@ class Card
   end
 
   def to_s
-    "#{FACES[name]}#{SUITS[@suit]}"
+    "#{FACES[name]}#{SUITS[suit]}"
   end
 end

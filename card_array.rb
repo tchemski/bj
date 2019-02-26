@@ -1,30 +1,11 @@
 require_relative 'card.rb'
 
 #наборы карт, генерация колоды
-class CardArray
-  class << self
-    def deck_generate
-      deck = CardArray.new
-      Card::SUITS.each_key do |suit_name|
-        (2..10).each {|i| deck.add(Card.new(i, suit_name, i))}
+class CardArray < Array
 
-        (Card::JACK..Card::KING).each { |i| deck.add(Card.new(i, suit_name, 10)) }
-
-        deck.add(Card.new(Card::ACE, suit_name, 11))
-      end
-      deck
-    end
-  end
+  BLACK_JACK = 21
 
   attr_reader :card_array
-
-  def initialize
-    @card_array = []
-  end
-
-  def add(card)
-    card_array << card
-  end
 
   def calculate_points
     result = []
@@ -40,10 +21,16 @@ class CardArray
       sum -= 10
       aces -= 1
     end
-    result
+    # удаляем до последнего либо до подходящего
+    result.delete_at(0) while result.size > 1 && result[0] >= BLACK_JACK
+    result[0]
   end
 
   def random_card
     card_array.delete_at(rand(card_array.size))
+  end
+
+  def to_s
+    self.map{|c| c.to_s}.join(' ')
   end
 end

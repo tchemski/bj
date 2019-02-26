@@ -1,21 +1,16 @@
 class Player
   START_MONEY = 100
-  BJ_NAME = 'Чёрный Джек'
-
-  def self.black_jack
-    Player.new(BJ_NAME)
-  end
 
   attr_reader :name, :cards
   attr_accessor :wallet
 
-  def initialize(name)
+  def initialize(name, money = START_MONEY)
     @name = name
-    discard_cards
-    self.wallet = START_MONEY
+    discard
+    self.wallet = money
   end
 
-  def discard_cards
+  def discard
     @cards = CardArray.new
   end
 
@@ -23,7 +18,7 @@ class Player
     cards.calculate_points
   end
 
-  def take_card(deck)
+  def take_from(deck)
     cards.add(deck.random_card)
   end
 end
