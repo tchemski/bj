@@ -1,15 +1,15 @@
 class Card
-  SUITS = { hearts:   '♥',
+  SUITS = { hearts: '♥',
             diamonds: '♦',
-            clubs:    '♣',
-            spades:   '♠' }.freeze
+            clubs: '♣',
+            spades: '♠' }.freeze
 
   JACK, QUEEN, KING, ACE = (11..14).to_a
 
-  FACES = { JACK  => 'J',
+  FACES = { JACK => 'J',
             QUEEN => 'Q',
-            KING  => 'K',
-            ACE   => 'A'  }
+            KING => 'K',
+            ACE => 'A' }.merge!(Hash[*(2..10).map { |e| [e, e.to_s] }.flatten])
 
   (2..10).each { |i| FACES[i] = i.to_s.freeze }
 

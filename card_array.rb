@@ -1,23 +1,33 @@
 require_relative 'card.rb'
 
-#наборы карт, генерация колоды
+# наборы карт, генерация колоды
 class CardArray < Array
-
   BLACK_JACK = 21
 
-  attr_reader :card_array
+  def self.deck_generate
+    deck = CardArray.new
+    Card::SUITS.each_key do |suit_name|
+      (2..10).each { |i| deck << Card.new(i, suit_name, i) }
 
-  def calculate_points
+      (Card::JACK..Card::KING).each { |i| deck << Card.new(i, suit_name, 10) }
+
+      deck << Card.new(Card::ACE, suit_name, 11)
+    end
+    deck
+  end
+
+  def points
     result = []
     sum = 0
     aces = 0
-    card_array.each do |card|
+    each do |card|
       sum += card.points
       aces += 1 if card.name == Card::ACE
     end
     loop do
       result << sum
       break if aces.zero?
+
       sum -= 10
       aces -= 1
     end
@@ -27,10 +37,10 @@ class CardArray < Array
   end
 
   def random_card
-    card_array.delete_at(rand(card_array.size))
+    delete_at(rand(size))
   end
 
   def to_s
-    self.map{|c| c.to_s}.join(' ')
+    map(&:to_s).join(' ')
   end
 end

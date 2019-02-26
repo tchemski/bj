@@ -15,10 +15,10 @@ class Player
   end
 
   def points
-    cards.calculate_points
+    cards.points
   end
 
   def take_from(deck)
-    cards.add(deck.random_card)
+    cards << deck.random_card
   end
 end

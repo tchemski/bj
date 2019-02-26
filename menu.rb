@@ -1,10 +1,10 @@
 class Menu
-  LINE = '='*15
+  LINE = '=' * 15
 
   attr_reader :player, :dealer
 
   def self.name_gets
-    print "Введите ваше имя: "
+    print 'Введите ваше имя: '
     gets.chomp
   end
 
@@ -16,9 +16,10 @@ class Menu
   def hello_puts
     puts "Добро пожаловать в игру Блэк-Джек, #{player.name}!"
     puts
-    puts "Enter - сделать ставку, взять ещё карту"
-    puts "пробел - вскрыть карты"
-    puts "любой другой символ - пропустить ход"
+    puts 'Enter - сделать ставку, взять ещё карту'
+    puts 'пробел - вскрыть карты'
+    puts 'любой другой символ - пропустить ход'
+    puts
   end
 
   def wallets_puts
@@ -33,7 +34,7 @@ class Menu
   def cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.cards} - #{layer.cards.points}",
+      player: "#{player.cards} - #{player.cards.points}",
       dealer: "#{dealer.cards} - #{dealer.cards.points}"
     )
   end
@@ -41,8 +42,8 @@ class Menu
   def closed_cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.cards} - #{layer.cards.points}",
-      dealer: '[X]'*dealer.cards.size
+      player: "#{player.cards} - #{player.cards.points}",
+      dealer: '[X]' * dealer.cards.size
     )
   end
 
@@ -51,12 +52,12 @@ class Menu
   end
 
   def yet_or_show_gets
-    puts "ещё карту или вскрываемся?"
+    print 'ещё карту или вскрываемся?'
     gets.chomp
   end
 
   def bet?
-    puts "Делаем ставку?"
+    puts "Делаем ставку, #{player.name}?"
     gets.chomp.empty?
   end
 
@@ -68,6 +69,14 @@ class Menu
     puts "Игра окончена, приходите к нам ещё, #{player.name}"
   end
 
+  def win(winner, bank)
+    puts "#{winner.name} получает банк #{bank}$"
+  end
+
+  def draw(bank)
+    puts "ничья, банк #{bank}$ поделен между: #{player.name} и #{dealer.name}"
+  end
+
   private
 
   def players_info(param)
@@ -76,23 +85,3 @@ class Menu
     puts "  #{dealer.name}: #{param[:dealer]}"
   end
 end
-__END__
-Добро пожаловать в игру Блэк-Джек, Дмитрий!
-
-Enter - сделать ставку, взять ещё карту
-любой символ - отказаться
-
-счёт:
-  Дмитрий: 100$
-  Диллер: 100$
-==============
-делаем ставку?
-банк:20$
-карты:
-  Дмитрий: 5 3 - 8
-  Диллер: Х Х
-ещё карту?
-карты:
-  Дмитрий: 5 3 2 - 10
-  Диллер: 10 T - 21
-
