@@ -52,12 +52,12 @@ class Menu
   end
 
   def yet_or_show_gets
-    print 'ещё карту или вскрываемся?'
+    print 'ещё карту или вскрываемся? '
     gets.chomp
   end
 
   def bet?
-    puts "Делаем ставку, #{player.name}?"
+    print "Делаем ставку, #{player.name}? "
     gets.chomp.empty?
   end
 

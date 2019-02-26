@@ -32,7 +32,7 @@ class CardArray < Array
       aces -= 1
     end
     # удаляем до последнего либо до подходящего
-    result.delete_at(0) while result.size > 1 && result[0] >= BLACK_JACK
+    result.delete_at(0) while result.size > 1 && result[0] > BLACK_JACK
     result[0]
   end
 

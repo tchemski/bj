@@ -64,7 +64,9 @@ class Game
   end
 
   def player_turn
-    return if stop_word =~ STOP_WORD || player.cards.size == MAX_CARDS_SIZE
+    return if stop_word =~ STOP_WORD\
+              || player.cards.size == MAX_CARDS_SIZE\
+              || player.cards.points == CardArray::BLACK_JACK
 
     menu.closed_cards_puts
     self.stop_word = menu.yet_or_show_gets
@@ -89,7 +91,6 @@ class Game
       win dealer
     end
 
-    self.stop_word = ''
     self.bank = 0
     players.each(&:discard)
   end
