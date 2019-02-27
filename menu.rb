@@ -30,15 +30,15 @@ class Menu
   def cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.hand} - #{player.points}",
-      dealer: "#{dealer.hand} - #{dealer.points}"
+      player: "#{player.hand} - #{player.points_to_s}",
+      dealer: "#{dealer.hand} - #{dealer.points_to_s}"
     )
   end
 
   def closed_cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.hand} - #{player.points}",
+      player: "#{player.hand} - #{player.points_to_s}",
       dealer: '[X]' * dealer.hand.size
     )
   end
@@ -57,8 +57,8 @@ class Menu
 
   def ask_bet
     puts "Делаем ставку, #{player.name}?"
-    puts "1) Да"
-    puts "2) Нет"
+    puts '1) Да'
+    puts '2) Нет'
     print ': '
     gets.chomp
   end
@@ -80,7 +80,7 @@ class Menu
   end
 
   def error_message
-    puts "Неправильный ввод, такого пункта нет!!!"
+    puts 'Неправильный ввод, такого пункта нет!!!'
   end
 
   private

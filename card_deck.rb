@@ -2,7 +2,6 @@ require_relative 'card.rb'
 
 # генерация колоды
 class CardDeck
-
   def initialize
     Card::SUITS.each_key do |suit_name|
       (2..10).each { |i| deck << Card.new(i, suit_name, i) }

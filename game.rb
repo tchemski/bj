@@ -16,10 +16,10 @@ class Game
     bet_yes: word_regexp[1],
     bet_no: word_regexp[2],
 
-    yet:   word_regexp[1],
+    yet: word_regexp[1],
     open: word_regexp[2],
     skip: word_regexp[3]
-  }
+  }.freeze
 
   MAX_CARDS_SIZE = 3
 
@@ -60,7 +60,6 @@ class Game
       return false
     end
 
-
     # делаем ставку?
     loop do
       ask = menu.ask_bet
@@ -94,7 +93,7 @@ class Game
 
     loop do
       ask = menu.ask_yet
-      if !MENU_WORDS.values_at(:yet,:open,:skip).any?{ |re| ask =~ re }
+      if MENU_WORDS.values_at(:yet, :open, :skip).none? { |re| ask =~ re }
         menu.error_message
         next
       end
