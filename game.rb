@@ -1,12 +1,26 @@
-require_relative 'card_array.rb'
+require_relative 'card_deck.rb'
 require_relative 'menu.rb'
 require_relative 'player.rb'
 
 class Game
   DEALER_NAME = 'Диллер'.freeze
   BET = 10
-  STOP_WORD = /^ $/.freeze
-  YET_WORD = /^$/.freeze
+
+  word_regexp = {
+    1 => /^1$/.freeze,
+    2 => /^2$/.freeze,
+    3 => /^3$/.freeze
+  }
+
+  MENU_WORDS = {
+    bet_yes: word_regexp[1],
+    bet_no: word_regexp[2],
+
+    yet:   word_regexp[1],
+    open: word_regexp[2],
+    skip: word_regexp[3]
+  }
+
   MAX_CARDS_SIZE = 3
 
   attr_reader :player, :dealer, :menu
@@ -25,7 +39,7 @@ class Game
   def turn
     return false unless make_bank?
 
-    self.deck = CardArray.deck_generate
+    self.deck = CardDeck.new
     players.each { |p| 2.times { p.take_from(deck) } }
     player_turn
     dealer_turn
@@ -46,10 +60,18 @@ class Game
       return false
     end
 
+
     # делаем ставку?
-    unless menu.bet?
-      menu.game_over_puts
-      return false
+    loop do
+      ask = menu.ask_bet
+      if ask =~ MENU_WORDS[:bet_yes]
+        break
+      elsif ask =~ MENU_WORDS[:bet_no]
+        menu.game_over_puts
+        return false
+      else
+        menu.error_message
+      end
     end
 
     players.each { |p| p.wallet -= BET }
@@ -64,26 +86,35 @@ class Game
   end
 
   def player_turn
-    return if stop_word =~ STOP_WORD\
-              || player.cards.size == MAX_CARDS_SIZE\
-              || player.cards.points == CardArray::BLACK_JACK
+    return if stop_word =~ MENU_WORDS[:open]\
+              || player.hand.size == MAX_CARDS_SIZE\
+              || player.points == Hand::BLACK_JACK
 
     menu.closed_cards_puts
-    self.stop_word = menu.yet_or_show_gets
 
-    player.take_from(deck) if stop_word =~ YET_WORD
+    loop do
+      ask = menu.ask_yet
+      if !MENU_WORDS.values_at(:yet,:open,:skip).any?{ |re| ask =~ re }
+        menu.error_message
+        next
+      end
+      self.stop_word = ask
+      break
+    end
+
+    player.take_from(deck) if stop_word =~ MENU_WORDS[:yet]
   end
 
   def distribute_bank
     menu.cards_puts
 
     if (player.points == dealer.points)\
-       || players.all? { |p| p.points > CardArray::BLACK_JACK }
+       || players.all? { |p| p.points > Hand::BLACK_JACK }
       players.each { |p| p.wallet += bank / 2 }
       menu.draw(bank)
-    elsif player.points > CardArray::BLACK_JACK
+    elsif player.points > Hand::BLACK_JACK
       win dealer
-    elsif dealer.points > CardArray::BLACK_JACK
+    elsif dealer.points > Hand::BLACK_JACK
       win player
     elsif player.points > dealer.points
       win player

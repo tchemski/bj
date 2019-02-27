@@ -16,10 +16,6 @@ class Menu
   def hello_puts
     puts "Добро пожаловать в игру Блэк-Джек, #{player.name}!"
     puts
-    puts 'Enter - сделать ставку, взять ещё карту'
-    puts 'пробел - вскрыть карты'
-    puts 'любой другой символ - пропустить ход'
-    puts
   end
 
   def wallets_puts
@@ -34,16 +30,16 @@ class Menu
   def cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.cards} - #{player.cards.points}",
-      dealer: "#{dealer.cards} - #{dealer.cards.points}"
+      player: "#{player.hand} - #{player.points}",
+      dealer: "#{dealer.hand} - #{dealer.points}"
     )
   end
 
   def closed_cards_puts
     players_info(
       head: 'карты',
-      player: "#{player.cards} - #{player.cards.points}",
-      dealer: '[X]' * dealer.cards.size
+      player: "#{player.hand} - #{player.points}",
+      dealer: '[X]' * dealer.hand.size
     )
   end
 
@@ -51,14 +47,20 @@ class Menu
     puts "банк: #{money}$"
   end
 
-  def yet_or_show_gets
-    print 'ещё карту или вскрываемся? '
+  def ask_yet
+    puts '1) ещё карту'
+    puts '2) вскрываемся'
+    puts '3) пропустить ход'
+    print ': '
     gets.chomp
   end
 
-  def bet?
-    print "Делаем ставку, #{player.name}? "
-    gets.chomp.empty?
+  def ask_bet
+    puts "Делаем ставку, #{player.name}?"
+    puts "1) Да"
+    puts "2) Нет"
+    print ': '
+    gets.chomp
   end
 
   def no_money_puts(player)
@@ -75,6 +77,10 @@ class Menu
 
   def draw(bank)
     puts "ничья, банк #{bank}$ поделен между: #{player.name} и #{dealer.name}"
+  end
+
+  def error_message
+    puts "Неправильный ввод, такого пункта нет!!!"
   end
 
   private

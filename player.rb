@@ -1,7 +1,9 @@
+require_relative 'hand.rb'
+
 class Player
   START_MONEY = 100
 
-  attr_reader :name, :cards
+  attr_reader :name, :hand
   attr_accessor :wallet
 
   def initialize(name, money = START_MONEY)
@@ -11,14 +13,14 @@ class Player
   end
 
   def discard
-    @cards = CardArray.new
+    @hand = Hand.new
   end
 
   def points
-    cards.points
+    hand.points
   end
 
   def take_from(deck)
-    cards << deck.random_card
+    hand << deck.random_card
   end
 end
